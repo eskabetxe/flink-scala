@@ -1,13 +1,12 @@
 package pro.boto.flink.scala.streaming.sink
 
-import org.apache.flink.api.common.eventtime.Watermark
-import org.apache.flink.api.connector.sink2.{Sink, SinkWriter}
+import org.apache.flink.api.connector.sink2.Sink
+import org.apache.flink.api.connector.sink2.SinkWriter
 import pro.boto.flink.scala.streaming.sink.CollectSink.CollectWriter
 
 import java.io.IOException
-import java.util.{ArrayList, Collections}
-import scala.collection.mutable.ListBuffer
-import scala.jdk.CollectionConverters.*
+import java.util.Collections
+import scala.jdk.CollectionConverters._
 
 
 class CollectSink[T <: Any]() extends Sink[T] with Serializable {
@@ -15,7 +14,7 @@ class CollectSink[T <: Any]() extends Sink[T] with Serializable {
   clearValues()
 
   @throws[IOException]
-  override def createWriter(initContext: Sink.InitContext): SinkWriter[T] = CollectWriter.asInstanceOf
+  override def createWriter(initContext: Sink.InitContext): SinkWriter[T] = CollectWriter.asInstanceOf[SinkWriter[T]]
 
   def values: List[T] = {
     CollectWriter.values.asScala.toList.asInstanceOf[List[T]]

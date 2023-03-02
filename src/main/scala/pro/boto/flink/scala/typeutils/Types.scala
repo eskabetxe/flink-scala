@@ -1,14 +1,9 @@
 package pro.boto.flink.scala.typeutils
 
-import org.apache.flink.annotation.PublicEvolving
-import org.apache.flink.api.common.functions.InvalidTypesException
-import org.apache.flink.api.common.typeinfo.{TypeInformation, Types as JTypes}
-import org.apache.flink.types.Row
+import org.apache.flink.api.common.typeinfo.{Types => JTypes}
+import org.apache.flink.api.common.typeinfo.TypeInformation
 
-import scala.jdk.CollectionConverters.*
-import scala.util.{Either, Try}
-
-object Types {
+trait Types {
 
   /** Returns type information for [[String]] and [[java.lang.String]]. Supports a null value. */
   implicit val STRING: TypeInformation[String] = JTypes.STRING

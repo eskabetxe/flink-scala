@@ -19,21 +19,14 @@
 package pro.boto.flink.scala.streaming
 
 import org.apache.flink.annotation.PublicEvolving
-import org.apache.flink.api.common.cache.DistributedCache
-import org.apache.flink.api.common.restartstrategy.RestartStrategies.RestartStrategyConfiguration
+import org.apache.flink.api.common.ExecutionConfig
+import org.apache.flink.api.common.JobExecutionResult
 import org.apache.flink.api.common.typeinfo.TypeInformation
-import org.apache.flink.api.common.{ExecutionConfig, JobExecutionResult}
-import org.apache.flink.api.java.tuple.Tuple2
-import org.apache.flink.configuration.Configuration
-import org.apache.flink.core.execution.{JobClient, JobListener}
-import org.apache.flink.core.fs.Path
-import org.apache.flink.runtime.state.StateBackend
-import org.apache.flink.streaming.api.CheckpointingMode
-import org.apache.flink.streaming.api.datastream.DataStreamSource
-import org.apache.flink.streaming.api.environment.{CheckpointConfig, StreamExecutionEnvironment as JavaEnv}
+import org.apache.flink.core.execution.JobClient
+import org.apache.flink.streaming.api.environment.{StreamExecutionEnvironment => JavaEnv}
+import org.apache.flink.streaming.api.environment.CheckpointConfig
 
-import java.lang
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 import scala.reflect.ClassTag
 
 @PublicEvolving
@@ -44,10 +37,6 @@ class StreamEnvironment(val javaEnv: JavaEnv) {
 
   def fromElements[T](data: T*)(implicit classTag: ClassTag[T]): DataStream[T] = {
     new DataStream[T](javaEnv.fromElements(classTag.runtimeClass.asInstanceOf[Class[T]], data:_*))
-  }
-
-  def fromCollection[T](data: T*)(implicit typeInformation: TypeInformation[T]): DataStream[T] = {
-    fromCollection(data)(typeInformation)
   }
 
   def fromCollection[T](data: Iterable[T])(implicit typeInformation: TypeInformation[T]): DataStream[T] = {
@@ -90,7 +79,7 @@ object StreamEnvironment {
 
   def createRemoteEnvironment(host: String, port: Int,
                               configuration: StreamConfiguration = new StreamConfiguration(),
-                              jarFiles: String*): StreamEnvironment = {
+                              jarFiles: List[String] = List()): StreamEnvironment = {
     new StreamEnvironment(JavaEnv
       .createRemoteEnvironment(host, port, configuration.toJavaConfiguration, jarFiles: _*))
   }

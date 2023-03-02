@@ -1,4 +1,4 @@
-package pro.boto.flink.scala.testmocks
+package pro.boto.flink.scala.testutils.mocks
 
 import org.apache.flink.api.connector.sink2.SinkWriter
 

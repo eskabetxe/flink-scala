@@ -1,17 +1,19 @@
-package pro.boto.flink.scala.testmocks
+package pro.boto.flink.scala.testutils.mocks
 
-import org.apache.flink.api.common.operators.{MailboxExecutor, ProcessingTimeService}
+import org.apache.flink.api.common.operators.MailboxExecutor
+import org.apache.flink.api.common.operators.ProcessingTimeService
 import org.apache.flink.api.common.serialization.SerializationSchema
 import org.apache.flink.api.connector.sink2.Sink
 import org.apache.flink.metrics.MetricGroup
-import org.apache.flink.metrics.groups.{SinkWriterMetricGroup, UnregisteredMetricsGroup}
+import org.apache.flink.metrics.groups.SinkWriterMetricGroup
+import org.apache.flink.metrics.groups.UnregisteredMetricsGroup
 import org.apache.flink.runtime.metrics.groups.InternalSinkWriterMetricGroup
 import org.apache.flink.streaming.runtime.tasks.TestProcessingTimeService
+import org.apache.flink.util.SimpleUserCodeClassLoader
+import org.apache.flink.util.UserCodeClassLoader
 import org.apache.flink.util.function.ThrowingRunnable
-import org.apache.flink.util.{SimpleUserCodeClassLoader, UserCodeClassLoader}
 
 import java.util.OptionalLong
-import scala.util.Random
 
 class MockSinkInitContext(numSubtasks: Int = 1, subtaskId: Int = 0) extends Sink.InitContext with SerializationSchema.InitializationContext {
   override def getMailboxExecutor: MailboxExecutor = new MailboxExecutor {

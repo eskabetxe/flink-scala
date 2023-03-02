@@ -3,10 +3,7 @@ package pro.boto.flink.scala
 import org.apache.flink.api.common.typeinfo.TypeInformation
 
 import scala.reflect.ClassTag
-
-package object typeutils {
-
-  export pro.boto.flink.scala.typeutils.Types._
+package object typeutils extends Types {
 
   /**
    * Generates type information based on the given class and/or its type parameters.

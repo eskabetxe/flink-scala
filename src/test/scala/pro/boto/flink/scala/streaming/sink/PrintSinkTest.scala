@@ -18,43 +18,18 @@
 
 package pro.boto.flink.scala.streaming.sink
 
-import com.tngtech.archunit.core.domain.*
-import com.tngtech.archunit.core.importer.ClassFileImporter
-import com.tngtech.archunit.lang.ArchRule.Assertions
-import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
-import com.tngtech.archunit.lang.{ArchCondition, ArchRule, ConditionEvents, SimpleConditionEvent}
-import org.apache.flink.annotation.Internal
-import org.apache.flink.api.common.cache.DistributedCache.DistributedCacheEntry
-import org.apache.flink.api.common.typeinfo.TypeInformation
-import org.apache.flink.api.common.{ExecutionConfig, RuntimeExecutionMode}
-import org.apache.flink.api.connector.sink2.SinkWriter
-import org.apache.flink.api.java.tuple.Tuple2
-import org.apache.flink.api.java.typeutils.GenericTypeInfo
-import org.apache.flink.configuration.{Configuration, ReadableConfig}
-import org.apache.flink.runtime.state.StateBackend
-import org.apache.flink.streaming.api.CheckpointingMode
-import org.apache.flink.streaming.api.environment.{CheckpointConfig, LocalStreamEnvironment, StreamExecutionEnvironmentFactory, StreamExecutionEnvironment as JavaEnv}
-import org.apache.flink.streaming.api.functions.sink.PrintSinkFunction
-import org.assertj.core.api
-import org.assertj.core.api.Assertions.*
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.jupiter.api.{AfterEach, BeforeEach, Test}
-import org.scalatest.wordspec.AnyWordSpec
-import pro.boto.flink.scala.architecture.RelatedMethod
-import pro.boto.flink.scala.architecture.RelatedMethod.classFrom
-import pro.boto.flink.scala.streaming.StreamEnvironment
+import org.assertj.core.api.Assertions._
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import pro.boto.flink.scala.streaming.sink.PrintSink.PrintType
-import pro.boto.flink.scala.testmocks.{MockSinkInitContext, MockSinkWriterContext}
-import pro.boto.flink.scala.typeutils.*
+import pro.boto.flink.scala.testutils.mocks.MockSinkInitContext
+import pro.boto.flink.scala.testutils.mocks.MockSinkWriterContext
 
-import java.io.{ByteArrayOutputStream, PrintStream}
-import java.util.Collections
-import scala.collection.mutable.ListBuffer
-import scala.jdk.CollectionConverters.*
-import scala.util.Using
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
-class PrintSinkTest extends AnyWordSpec {
+class PrintSinkTest {
 
   private val originalSystemOut: PrintStream = System.out
   private val originalSystemErr: PrintStream = System.err

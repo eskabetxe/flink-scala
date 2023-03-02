@@ -1,21 +1,15 @@
 package pro.boto.flink.scala.architecture
 
-import com.tngtech.archunit.base.{DescribedPredicate, HasDescription}
-import com.tngtech.archunit.core.domain.*
+import com.tngtech.archunit.base.DescribedPredicate
+import com.tngtech.archunit.base.HasDescription
+import com.tngtech.archunit.core.domain._
 import com.tngtech.archunit.core.importer.ClassFileImporter
-import com.tngtech.archunit.lang.*
-import com.tngtech.archunit.lang.ArchRule.Assertions
+import com.tngtech.archunit.lang._
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
-import org.apache.flink.annotation.{Experimental, Internal}
-import org.apache.flink.configuration.Configuration
-import org.apache.flink.streaming.api.environment.{CheckpointConfig, LocalStreamEnvironment, StreamExecutionEnvironment as JavaEnv}
-import org.junit.jupiter.api.Test
-import pro.boto.flink.scala.architecture.RelatedMethod
-import pro.boto.flink.scala.streaming.StreamEnvironment
+import org.apache.flink.annotation.Experimental
+import org.apache.flink.annotation.Internal
 
-import java.util
-import java.util.Optional
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 
 object ClassMethods {
   private def methodToRelated(method: JavaMethod): RelatedMethod = {

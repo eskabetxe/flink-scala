@@ -18,33 +18,12 @@
 
 package pro.boto.flink.scala.streaming.sink
 
-import com.tngtech.archunit.core.domain.*
-import com.tngtech.archunit.core.importer.ClassFileImporter
-import com.tngtech.archunit.lang.ArchRule.Assertions
-import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
-import com.tngtech.archunit.lang.{ArchCondition, ArchRule, ConditionEvents, SimpleConditionEvent}
-import org.apache.flink.annotation.Internal
-import org.apache.flink.api.common.cache.DistributedCache.DistributedCacheEntry
-import org.apache.flink.api.common.typeinfo.TypeInformation
-import org.apache.flink.api.common.{ExecutionConfig, RuntimeExecutionMode}
-import org.apache.flink.api.java.tuple.Tuple2
-import org.apache.flink.api.java.typeutils.GenericTypeInfo
-import org.apache.flink.configuration.{Configuration, ReadableConfig}
-import org.apache.flink.runtime.state.StateBackend
-import org.apache.flink.streaming.api.CheckpointingMode
-import org.apache.flink.streaming.api.environment.{CheckpointConfig, LocalStreamEnvironment, StreamExecutionEnvironmentFactory, StreamExecutionEnvironment as JavaEnv}
-import org.apache.flink.streaming.api.functions.sink.PrintSinkFunction
-import org.assertj.core.api
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions._
 import org.junit.jupiter.api.Test
-import pro.boto.flink.scala.architecture.RelatedMethod.classFrom
-import pro.boto.flink.scala.architecture.{ClassMethods, RelatedMethod}
 import pro.boto.flink.scala.streaming.StreamEnvironment
-import pro.boto.flink.scala.typeutils.*
+import pro.boto.flink.scala.typeutils._
 
-import java.util.Collections
-import scala.collection.mutable.ListBuffer
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 
 class CollectSinkTest {
 
@@ -52,7 +31,7 @@ class CollectSinkTest {
   def testSink(): Unit = {
     val env = StreamEnvironment.createEnvironment()
 
-    val sink = CollectSink[Int]()
+    val sink = new CollectSink[Int]()
     env.fromCollection(Range(0, 100).iterator)
       .sinkTo(sink)
 

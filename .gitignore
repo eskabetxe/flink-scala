@@ -1,6 +1,9 @@
+# Intellij
+.idea
+*.iml
+# Mac
+.DS_Store
+# Compile
+target/
 *.class
 *.log
-
-.idea
-target/
-
