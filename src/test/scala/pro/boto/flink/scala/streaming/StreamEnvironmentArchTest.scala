@@ -19,43 +19,42 @@
 package pro.boto.flink.scala.streaming
 
 import com.esotericsoftware.kryo.Serializer
-import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.lang.ArchRule.Assertions
-import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods
-import com.tngtech.archunit.lang.{ArchCondition, ArchRule, ConditionEvents, SimpleConditionEvent}
-import org.apache.flink.annotation.Internal
+import org.apache.flink.api.common.ExecutionConfig
+import org.apache.flink.api.common.JobExecutionResult
+import org.apache.flink.api.common.RuntimeExecutionMode
 import org.apache.flink.api.common.cache.DistributedCache.DistributedCacheEntry
 import org.apache.flink.api.common.eventtime.WatermarkStrategy
 import org.apache.flink.api.common.io.InputFormat
 import org.apache.flink.api.common.operators.SlotSharingGroup
 import org.apache.flink.api.common.restartstrategy.RestartStrategies.RestartStrategyConfiguration
 import org.apache.flink.api.common.typeinfo.TypeInformation
-import org.apache.flink.api.common.{ExecutionConfig, JobExecutionResult, RuntimeExecutionMode}
 import org.apache.flink.api.connector.source.Source
 import org.apache.flink.api.java.tuple.Tuple2
-import org.apache.flink.api.java.typeutils.GenericTypeInfo
-import org.apache.flink.configuration.{Configuration, ReadableConfig}
-import org.apache.flink.core.execution.{JobClient, JobListener}
+import org.apache.flink.configuration.Configuration
+import org.apache.flink.configuration.ReadableConfig
+import org.apache.flink.core.execution.JobClient
+import org.apache.flink.core.execution.JobListener
 import org.apache.flink.core.fs.Path
 import org.apache.flink.runtime.state.StateBackend
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.datastream.DataStreamSource
-import org.apache.flink.streaming.api.environment.{CheckpointConfig, LocalStreamEnvironment, RemoteStreamEnvironment, StreamExecutionEnvironment}
+import org.apache.flink.streaming.api.environment.CheckpointConfig
+import org.apache.flink.streaming.api.environment.LocalStreamEnvironment
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.functions.source.SourceFunction
-import org.apache.flink.util.{SplittableIterator, TernaryBoolean}
-import org.assertj.core.api
-import org.junit.jupiter.api.Assertions.*
+import org.apache.flink.util.SplittableIterator
+import org.apache.flink.util.TernaryBoolean
 import org.junit.jupiter.api.Test
-import pro.boto.flink.scala.architecture.RelatedMethod.{classFrom, extendsFrom}
-import pro.boto.flink.scala.architecture.{ClassMethods, RelatedMethod}
+import pro.boto.flink.scala.architecture.ClassMethods
+import pro.boto.flink.scala.architecture.RelatedMethod
+import pro.boto.flink.scala.architecture.RelatedMethod.classFrom
+import pro.boto.flink.scala.architecture.RelatedMethod.extendsFrom
 
-import java.lang.Long as JavaLong
+import java.lang.{Long => JavaLong}
 import java.net.URI
-import java.rmi.Remote
 import java.util
-import java.util.{Collections, List as JavaList}
-import scala.jdk.CollectionConverters.*
-import scala.reflect.ClassTag
+import java.util.{List => JavaList}
 
 class StreamEnvironmentArchTest {
 
@@ -129,7 +128,7 @@ class StreamEnvironmentArchTest {
     RelatedMethod("fromSequence", classFrom[DataStreamSource[_]](classFrom[JavaLong]), classFrom[Long], classFrom[Long]),
     RelatedMethod("socketTextStream", classFrom[DataStreamSource[_]](classFrom[String]), classFrom[String], classFrom[Int]),
     RelatedMethod("socketTextStream", classFrom[DataStreamSource[_]](classFrom[String]), classFrom[String], classFrom[Int], classFrom[String]),
-    RelatedMethod("socketTextStream", classFrom[DataStreamSource[_]](classFrom[String]), classFrom[String], classFrom[Int], classFrom[String], classFrom[Long]),
+    RelatedMethod("socketTextStream", classFrom[DataStreamSource[_]](classFrom[String]), classFrom[String], classFrom[Int], classFrom[String], classFrom[Long])
   )
 
   val STREAM_GRAPH_METHODS: List[RelatedMethod] = List(
@@ -148,7 +147,7 @@ class StreamEnvironmentArchTest {
     RelatedMethod("getCachedFiles", classFrom[JavaList[_]](classFrom[Tuple2[_, _]](classFrom[String], classFrom[DistributedCacheEntry]))),
     RelatedMethod("setBufferTimeout", classFrom[StreamExecutionEnvironment], classFrom[Long]),
     RelatedMethod("getBufferTimeout", classFrom[Long]),
-    RelatedMethod("registerSlotSharingGroup", classFrom[StreamExecutionEnvironment], classFrom[SlotSharingGroup]),
+    RelatedMethod("registerSlotSharingGroup", classFrom[StreamExecutionEnvironment], classFrom[SlotSharingGroup])
   )
 
   val KNOWN_METHODS: List[RelatedMethod] = List(
@@ -156,7 +155,7 @@ class StreamEnvironmentArchTest {
     RelatedMethod("setDefaultLocalParallelism", "void", classFrom[Int]),
     RelatedMethod("close", "void"),
     RelatedMethod("configure", "void", classFrom[ReadableConfig]),
-    RelatedMethod("configure", "void", classFrom[ReadableConfig], classFrom[ClassLoader]),
+    RelatedMethod("configure", "void", classFrom[ReadableConfig], classFrom[ClassLoader])
     ) ++
     CREATE_ENV_METHODS ++
     CHECKPOINT_METHODS ++

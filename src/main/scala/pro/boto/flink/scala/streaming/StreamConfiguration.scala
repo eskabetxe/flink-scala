@@ -1,10 +1,12 @@
 package pro.boto.flink.scala.streaming
 
 import org.apache.flink.annotation.PublicEvolving
-import org.apache.flink.api.common.{ExecutionConfig, RuntimeExecutionMode}
+import org.apache.flink.api.common.ExecutionConfig
+import org.apache.flink.api.common.RuntimeExecutionMode
 import org.apache.flink.api.common.restartstrategy.RestartStrategies.RestartStrategyConfiguration
-import org.apache.flink.configuration.{Configuration, ExecutionOptions, ReadableConfig, RestOptions, WritableConfig}
-import org.apache.flink.runtime.rest.RestClientConfiguration
+import org.apache.flink.configuration.Configuration
+import org.apache.flink.configuration.ExecutionOptions
+import org.apache.flink.configuration.RestOptions
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.environment.CheckpointConfig
 

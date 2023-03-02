@@ -1,15 +1,14 @@
 package pro.boto.flink.scala.streaming
 
 import org.apache.flink.annotation.PublicEvolving
-import org.apache.flink.api.common.functions.{FlatMapFunction, MapFunction}
+import org.apache.flink.api.common.functions.FlatMapFunction
+import org.apache.flink.api.common.functions.MapFunction
 import org.apache.flink.api.common.typeinfo.TypeInformation
-import org.apache.flink.api.connector.sink2
 import org.apache.flink.api.connector.sink2.Sink
-import org.apache.flink.streaming.api.datastream.{BroadcastStream, DataStreamSink, SingleOutputStreamOperator, AllWindowedStream as JavaAllWindowedStream, DataStream as JavaStream, KeyedStream as JavaKeyedStream}
+import org.apache.flink.streaming.api.datastream.{DataStream => JavaStream}
+import org.apache.flink.streaming.api.datastream.DataStreamSink
 
-
-import scala.io.StdIn
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 
 @PublicEvolving
 class DataStream[T](val javaStream: JavaStream[T]) {
